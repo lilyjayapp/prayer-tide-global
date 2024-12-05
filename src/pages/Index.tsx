@@ -21,10 +21,23 @@ interface TimingsResponse {
   };
 }
 
+const cities = [
+  { city: "London", country: "UK" },
+  { city: "Paris", country: "France" },
+  { city: "New York", country: "USA" },
+  { city: "Dubai", country: "UAE" },
+  { city: "Istanbul", country: "Turkey" },
+  { city: "Mecca", country: "Saudi Arabia" },
+  { city: "Medina", country: "Saudi Arabia" },
+  { city: "Cairo", country: "Egypt" },
+  { city: "Jakarta", country: "Indonesia" },
+  { city: "Kuala Lumpur", country: "Malaysia" },
+] as const;
+
 const Index = () => {
   const [open, setOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState("London");
-  const [selectedCountry, setSelectedCountry] = useState("UK");
+  const [selectedCity, setSelectedCity] = useState(cities[0].city);
+  const [selectedCountry, setSelectedCountry] = useState(cities[0].country);
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -37,19 +50,6 @@ const Index = () => {
       return { Fajr, Dhuhr, Asr, Maghrib, Isha };
     },
   });
-
-  const cities = [
-    { city: "London", country: "UK" },
-    { city: "Paris", country: "France" },
-    { city: "New York", country: "USA" },
-    { city: "Dubai", country: "UAE" },
-    { city: "Istanbul", country: "Turkey" },
-    { city: "Mecca", country: "Saudi Arabia" },
-    { city: "Medina", country: "Saudi Arabia" },
-    { city: "Cairo", country: "Egypt" },
-    { city: "Jakarta", country: "Indonesia" },
-    { city: "Kuala Lumpur", country: "Malaysia" },
-  ];
 
   return (
     <div className="min-h-screen bg-[#f3f6f4] p-8">
