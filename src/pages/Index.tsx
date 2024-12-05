@@ -28,10 +28,10 @@ interface Location {
   lng: number;
 }
 
-// Pre-process cities data once at startup with stricter filtering
+// Strictly filter cities data to reduce memory usage
 const locations: Location[] = (citiesData as any[])
-  .filter(city => city.population > 1000000) // Only million+ population cities
-  .slice(0, 500) // Further limit to top 500 cities
+  .filter(city => city.population > 5000000) // Only mega-cities (5M+ population)
+  .slice(0, 100) // Limit to top 100 cities
   .map(city => ({
     city: city.name,
     country: city.country,
@@ -58,18 +58,15 @@ const Index = () => {
     },
   });
 
-  // Memoize filtered locations for better performance
+  // Simplified filtering logic with smaller result set
   const filteredLocations = !searchQuery 
-    ? locations.slice(0, 30) // Show first 30 cities when no search
+    ? locations.slice(0, 10) // Show only first 10 cities when no search
     : locations
         .filter(location => {
           const searchLower = searchQuery.toLowerCase();
-          return (
-            location.city.toLowerCase().includes(searchLower) ||
-            location.country.toLowerCase().includes(searchLower)
-          );
+          return location.city.toLowerCase().includes(searchLower);
         })
-        .slice(0, 30); // Limit search results to 30 cities
+        .slice(0, 10); // Limit search results to 10 cities
 
   const handleLocationSelect = (location: Location) => {
     setSelectedCity(location.city);
