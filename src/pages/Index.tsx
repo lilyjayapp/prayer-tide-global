@@ -41,6 +41,7 @@ const Index = () => {
     queryFn: async () => {
       const [city, country] = selectedLocation.split("-");
       try {
+        console.log(`Fetching prayer times for ${city}, ${country}`);
         const response = await fetch(
           `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
         );
@@ -50,9 +51,11 @@ const Index = () => {
         }
         
         const data = await response.json();
+        console.log("Prayer times response:", data);
         const { Fajr, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
         return { Fajr, Dhuhr, Asr, Maghrib, Isha };
       } catch (error) {
+        console.error("Prayer times fetch error:", error);
         toast.error("Unable to fetch prayer times", {
           description: "Using default times instead"
         });
@@ -62,8 +65,10 @@ const Index = () => {
   });
 
   const handleLocationDetection = async () => {
+    console.log("Starting location detection...");
     const location = await getLocation();
     if (location) {
+      console.log("Detected location:", location);
       const cityMatch = cities.find(
         city => 
           city.name.toLowerCase() === location.city.toLowerCase() ||
@@ -71,11 +76,13 @@ const Index = () => {
       );
       
       if (cityMatch) {
+        console.log("Found matching city:", cityMatch);
         setSelectedLocation(`${cityMatch.name}-${cityMatch.country}`);
         toast.success("Location detected!", {
           description: `Found your location: ${cityMatch.name}, ${cityMatch.country}`
         });
       } else {
+        console.log("No matching city found in our database");
         toast.error("City not in our database", {
           description: "Please select your location manually"
         });
