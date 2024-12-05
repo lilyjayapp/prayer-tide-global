@@ -15,12 +15,6 @@ interface PrayerTimes {
   Isha: string;
 }
 
-interface TimingsResponse {
-  data: {
-    timings: PrayerTimes;
-  };
-}
-
 interface City {
   city: string;
   country: string;
@@ -50,7 +44,7 @@ const Index = () => {
       const response = await fetch(
         `https://api.aladhan.com/v1/timingsByCity?city=${selectedCity}&country=${selectedCountry}&method=2`
       );
-      const data: TimingsResponse = await response.json();
+      const data = await response.json();
       const { Fajr, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
       return { Fajr, Dhuhr, Asr, Maghrib, Isha };
     },
@@ -86,15 +80,15 @@ const Index = () => {
                 aria-expanded={open}
                 className="w-full justify-between bg-white hover:bg-emerald-50"
               >
-                {selectedCity && selectedCountry ? `${selectedCity}, ${selectedCountry}` : "Select a city"}
+                {`${selectedCity}, ${selectedCountry}`}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
-              <Command>
+            <PopoverContent className="w-full p-0">
+              <Command shouldFilter={true}>
                 <CommandInput placeholder="Search city..." />
                 <CommandEmpty>No city found.</CommandEmpty>
-                <CommandGroup heading="Cities">
+                <CommandGroup>
                   {cities.map((cityItem) => (
                     <CommandItem
                       key={`${cityItem.city}-${cityItem.country}`}
