@@ -159,8 +159,13 @@ const Index = () => {
               </Card>
             ))}
             <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-              <CardContent className="flex items-center justify-center h-full">
-                <p className="font-dancing-script text-2xl text-emerald-900 italic tracking-wide px-4 py-8">
+              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
+                <CardTitle className="text-center text-lg text-emerald-900">
+                  Inspiration
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="font-dancing-script text-2xl text-emerald-900 italic tracking-wide py-4">
                   Stay Connected to Allah, One Prayer at a Time
                 </p>
               </CardContent>
