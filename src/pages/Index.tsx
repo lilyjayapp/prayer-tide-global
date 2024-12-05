@@ -3,123 +3,83 @@ import { useQuery } from "@tanstack/react-query";
 import { Clock, Landmark } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { LocationSelector } from "@/components/LocationSelector";
+import { Location } from "@/types/prayer";
 
-const cities = [
-  { name: "London", country: "UK" },
-  { name: "New York", country: "USA" },
-  { name: "Tokyo", country: "Japan" },
-  { name: "Istanbul", country: "Turkey" },
-  { name: "Dubai", country: "UAE" },
-  { name: "Singapore", country: "Singapore" },
-  { name: "Kuala Lumpur", country: "Malaysia" },
-  { name: "Jakarta", country: "Indonesia" },
-  { name: "Paris", country: "France" },
-  { name: "Berlin", country: "Germany" },
-  { name: "Rome", country: "Italy" },
-  { name: "Madrid", country: "Spain" },
-  { name: "Moscow", country: "Russia" },
-  { name: "Cairo", country: "Egypt" },
-  { name: "Mumbai", country: "India" },
-  { name: "Beijing", country: "China" },
-  { name: "Seoul", country: "South Korea" },
-  { name: "Sydney", country: "Australia" },
-  { name: "Toronto", country: "Canada" },
-  { name: "Mexico City", country: "Mexico" },
-  { name: "São Paulo", country: "Brazil" },
-  { name: "Buenos Aires", country: "Argentina" },
-  { name: "Cape Town", country: "South Africa" },
-  { name: "Lagos", country: "Nigeria" },
-  { name: "Riyadh", country: "Saudi Arabia" },
-  { name: "Tehran", country: "Iran" },
-  { name: "Bangkok", country: "Thailand" },
-  { name: "Hong Kong", country: "China" },
-  { name: "Amsterdam", country: "Netherlands" },
-  { name: "Vienna", country: "Austria" },
-  { name: "Stockholm", country: "Sweden" },
-  { name: "Oslo", country: "Norway" },
-  { name: "Copenhagen", country: "Denmark" },
-  { name: "Warsaw", country: "Poland" },
-  { name: "Prague", country: "Czech Republic" },
-  { name: "Athens", country: "Greece" },
-  { name: "Budapest", country: "Hungary" },
-  { name: "Lisbon", country: "Portugal" },
-  { name: "Dublin", country: "Ireland" },
-  { name: "Brussels", country: "Belgium" },
-  { name: "Helsinki", country: "Finland" },
-  { name: "Bucharest", country: "Romania" },
-  { name: "Sofia", country: "Bulgaria" },
-  { name: "Belgrade", country: "Serbia" },
-  { name: "Zagreb", country: "Croatia" },
-  { name: "Bratislava", country: "Slovakia" },
-  { name: "Ljubljana", country: "Slovenia" },
-  { name: "Riga", country: "Latvia" },
-  { name: "Tallinn", country: "Estonia" },
-  { name: "Vilnius", country: "Lithuania" },
-  { name: "Reykjavik", country: "Iceland" },
-  { name: "Malta", country: "Malta" },
-  { name: "Luxembourg", country: "Luxembourg" },
-  { name: "Andorra", country: "Andorra" },
-  { name: "Monaco", country: "Monaco" },
-  { name: "Vatican City", country: "Vatican City" },
-  { name: "San Marino", country: "San Marino" },
-  { name: "Chisinau", country: "Moldova" },
-  { name: "Tirana", country: "Albania" },
-  { name: "Skopje", country: "North Macedonia" },
-  { name: "Sarajevo", country: "Bosnia and Herzegovina" },
-  { name: "Podgorica", country: "Montenegro" },
-  { name: "Tbilisi", country: "Georgia" },
-  { name: "Yerevan", country: "Armenia" },
-  { name: "Baku", country: "Azerbaijan" },
-  { name: "Ashgabat", country: "Turkmenistan" },
-  { name: "Tashkent", country: "Uzbekistan" },
-  { name: "Bishkek", country: "Kyrgyzstan" },
-  { name: "Dushanbe", country: "Tajikistan" },
-  { name: "Nur-Sultan", country: "Kazakhstan" },
-  { name: "Ulaanbaatar", country: "Mongolia" },
-  { name: "Pyongyang", country: "North Korea" },
-  { name: "Hanoi", country: "Vietnam" },
-  { name: "Vientiane", country: "Laos" },
-  { name: "Phnom Penh", country: "Cambodia" },
-  { name: "Yangon", country: "Myanmar" },
-  { name: "Dhaka", country: "Bangladesh" },
-  { name: "Colombo", country: "Sri Lanka" },
-  { name: "Kathmandu", country: "Nepal" },
-  { name: "Thimphu", country: "Bhutan" },
-  { name: "Male", country: "Maldives" },
-  { name: "Kabul", country: "Afghanistan" },
-  { name: "Baghdad", country: "Iraq" },
-  { name: "Damascus", country: "Syria" },
-  { name: "Beirut", country: "Lebanon" },
-  { name: "Amman", country: "Jordan" },
-  { name: "Jerusalem", country: "Israel" },
-  { name: "Kuwait City", country: "Kuwait" },
-  { name: "Manama", country: "Bahrain" },
-  { name: "Doha", country: "Qatar" },
-  { name: "Muscat", country: "Oman" },
-  { name: "Sanaa", country: "Yemen" },
-  { name: "Khartoum", country: "Sudan" },
-  { name: "Addis Ababa", country: "Ethiopia" },
-  { name: "Nairobi", country: "Kenya" },
-  { name: "Kampala", country: "Uganda" },
-  { name: "Dar es Salaam", country: "Tanzania" },
-  { name: "Lusaka", country: "Zambia" },
-  { name: "Harare", country: "Zimbabwe" },
-  { name: "Maputo", country: "Mozambique" },
-  { name: "Windhoek", country: "Namibia" },
-  { name: "Gaborone", country: "Botswana" },
-  { name: "Pretoria", country: "South Africa" },
-  { name: "Maseru", country: "Lesotho" },
-  { name: "Mbabane", country: "Eswatini" },
-  { name: "Antananarivo", country: "Madagascar" },
-  { name: "Port Louis", country: "Mauritius" }
-];
+const cities: Location[] = [
+  { city: "Addis Ababa", country: "Ethiopia", lat: 9.0450, lng: 38.7468 },
+  { city: "Amman", country: "Jordan", lat: 31.9454, lng: 35.9284 },
+  { city: "Amsterdam", country: "Netherlands", lat: 52.3676, lng: 4.9041 },
+  { city: "Andorra", country: "Andorra", lat: 42.5063, lng: 1.5218 },
+  { city: "Antananarivo", country: "Madagascar", lat: -18.8792, lng: 47.5079 },
+  { city: "Athens", country: "Greece", lat: 37.9838, lng: 23.7275 },
+  { city: "Ashgabat", country: "Turkmenistan", lat: 37.9509, lng: 58.3794 },
+  { city: "Baghdad", country: "Iraq", lat: 33.3152, lng: 44.3661 },
+  { city: "Baku", country: "Azerbaijan", lat: 40.4093, lng: 49.8671 },
+  { city: "Bangkok", country: "Thailand", lat: 13.7563, lng: 100.5018 },
+  { city: "Beijing", country: "China", lat: 39.9042, lng: 116.4074 },
+  { city: "Beirut", country: "Lebanon", lat: 33.8938, lng: 35.5018 },
+  { city: "Belgrade", country: "Serbia", lat: 44.7866, lng: 20.4489 },
+  { city: "Berlin", country: "Germany", lat: 52.5200, lng: 13.4050 },
+  { city: "Bishkek", country: "Kyrgyzstan", lat: 42.8746, lng: 74.5698 },
+  { city: "Bratislava", country: "Slovakia", lat: 48.1486, lng: 17.1077 },
+  { city: "Brussels", country: "Belgium", lat: 50.8503, lng: 4.3517 },
+  { city: "Bucharest", country: "Romania", lat: 44.4268, lng: 26.1025 },
+  { city: "Budapest", country: "Hungary", lat: 47.4979, lng: 19.0402 },
+  { city: "Cairo", country: "Egypt", lat: 30.0444, lng: 31.2357 },
+  { city: "Cape Town", country: "South Africa", lat: -33.9249, lng: 18.4241 },
+  { city: "Colombo", country: "Sri Lanka", lat: 6.9271, lng: 79.8612 },
+  { city: "Copenhagen", country: "Denmark", lat: 55.6761, lng: 12.5683 },
+  { city: "Dar es Salaam", country: "Tanzania", lat: -6.8160, lng: 39.2833 },
+  { city: "Dhaka", country: "Bangladesh", lat: 23.8103, lng: 90.4125 },
+  { city: "Doha", country: "Qatar", lat: 25.2854, lng: 51.5310 },
+  { city: "Dubai", country: "UAE", lat: 25.2048, lng: 55.2708 },
+  { city: "Dublin", country: "Ireland", lat: 53.3498, lng: -6.2603 },
+  { city: "Gaborone", country: "Botswana", lat: -24.6282, lng: 25.9231 },
+  { city: "Hanoi", country: "Vietnam", lat: 21.0278, lng: 105.8342 },
+  { city: "Harare", country: "Zimbabwe", lat: -17.8292, lng: 31.0522 },
+  { city: "Helsinki", country: "Finland", lat: 60.1699, lng: 24.9384 },
+  { city: "Hong Kong", country: "China", lat: 22.3193, lng: 114.1694 },
+  { city: "Istanbul", country: "Turkey", lat: 41.0082, lng: 28.9784 },
+  { city: "Jakarta", country: "Indonesia", lat: -6.2088, lng: 106.8456 },
+  { city: "Jerusalem", country: "Israel", lat: 31.7683, lng: 35.2137 },
+  { city: "Kampala", country: "Uganda", lat: 0.3476, lng: 32.5825 },
+  { city: "Kathmandu", country: "Nepal", lat: 27.7172, lng: 85.3240 },
+  { city: "Khartoum", country: "Sudan", lat: 15.5007, lng: 32.5599 },
+  { city: "Kuala Lumpur", country: "Malaysia", lat: 3.1390, lng: 101.6869 },
+  { city: "Kuwait City", country: "Kuwait", lat: 29.3759, lng: 47.9774 },
+  { city: "Lagos", country: "Nigeria", lat: 6.5244, lng: 3.3792 },
+  { city: "Lisbon", country: "Portugal", lat: 38.7223, lng: -9.1393 },
+  { city: "London", country: "UK", lat: 51.5074, lng: -0.1278 },
+  { city: "Luxembourg", country: "Luxembourg", lat: 49.6116, lng: 6.1319 },
+  { city: "Madrid", country: "Spain", lat: 40.4168, lng: -3.7038 },
+  { city: "Male", country: "Maldives", lat: 4.1755, lng: 73.5093 },
+  { city: "Manama", country: "Bahrain", lat: 26.2285, lng: 50.5860 },
+  { city: "Mexico City", country: "Mexico", lat: 19.4326, lng: -99.1332 },
+  { city: "Moscow", country: "Russia", lat: 55.7558, lng: 37.6173 },
+  { city: "Mumbai", country: "India", lat: 19.0760, lng: 72.8777 },
+  { city: "Muscat", country: "Oman", lat: 23.5880, lng: 58.3829 },
+  { city: "Nairobi", country: "Kenya", lat: -1.2921, lng: 36.8219 },
+  { city: "New York", country: "USA", lat: 40.7128, lng: -74.0060 },
+  { city: "Oslo", country: "Norway", lat: 59.9139, lng: 10.7522 },
+  { city: "Paris", country: "France", lat: 48.8566, lng: 2.3522 },
+  { city: "Phnom Penh", country: "Cambodia", lat: 11.5564, lng: 104.9282 },
+  { city: "Port Louis", country: "Mauritius", lat: -20.1609, lng: 57.5012 },
+  { city: "Prague", country: "Czech Republic", lat: 50.0755, lng: 14.4378 },
+  { city: "Pretoria", country: "South Africa", lat: -25.7461, lng: 28.1881 },
+  { city: "Riyadh", country: "Saudi Arabia", lat: 24.7136, lng: 46.6753 },
+  { city: "Rome", country: "Italy", lat: 41.9028, lng: 12.4964 },
+  { city: "Seoul", country: "South Korea", lat: 37.5665, lng: 126.9780 },
+  { city: "Singapore", country: "Singapore", lat: 1.3521, lng: 103.8198 },
+  { city: "Stockholm", country: "Sweden", lat: 59.3293, lng: 18.0686 },
+  { city: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
+  { city: "Tehran", country: "Iran", lat: 35.6892, lng: 51.3890 },
+  { city: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503 },
+  { city: "Toronto", country: "Canada", lat: 43.6532, lng: -79.3832 },
+  { city: "Vienna", country: "Austria", lat: 48.2082, lng: 16.3738 },
+  { city: "Warsaw", country: "Poland", lat: 52.2297, lng: 21.0122 },
+  { city: "Yangon", country: "Myanmar", lat: 16.8661, lng: 96.1951 }
+].sort((a, b) => a.city.localeCompare(b.city));
 
 const DEFAULT_PRAYER_TIMES = {
   Fajr: "05:30",
@@ -176,29 +136,11 @@ const Index = () => {
           </h1>
         </div>
 
-        <div className="w-full max-w-xs mx-auto">
-          <Select 
-            onValueChange={setSelectedLocation} 
-            value={selectedLocation}
-          >
-            <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
-              <SelectValue placeholder="Select a city" />
-            </SelectTrigger>
-            <SelectContent className="max-h-[300px] overflow-y-auto">
-              {cities.map((city) => (
-                <SelectItem 
-                  key={`${city.name}-${city.country}`}
-                  value={`${city.name}-${city.country}`}
-                >
-                  <div className="flex items-center">
-                    <Landmark className="w-4 h-4 mr-2 text-emerald-600" />
-                    {city.name}, {city.country}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <LocationSelector 
+          locations={cities} 
+          onLocationSelect={setSelectedLocation} 
+          defaultValue={selectedLocation} 
+        />
 
         {isLoading ? (
           <div className="text-center text-white/80">Loading prayer times...</div>
