@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Command, CommandInput, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PrayerTimes {
   Fajr: string;
-  Sunrise: string;
   Dhuhr: string;
   Asr: string;
   Maghrib: string;
@@ -19,6 +22,7 @@ interface TimingsResponse {
 }
 
 const Index = () => {
+  const [open, setOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("London");
   const [selectedCountry, setSelectedCountry] = useState("UK");
 
@@ -29,7 +33,8 @@ const Index = () => {
         `https://api.aladhan.com/v1/timingsByCity?city=${selectedCity}&country=${selectedCountry}&method=2`
       );
       const data: TimingsResponse = await response.json();
-      return data.data.timings;
+      const { Fajr, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
+      return { Fajr, Dhuhr, Asr, Maghrib, Isha };
     },
   });
 
@@ -41,49 +46,80 @@ const Index = () => {
     { city: "Istanbul", country: "Turkey" },
     { city: "Mecca", country: "Saudi Arabia" },
     { city: "Medina", country: "Saudi Arabia" },
+    { city: "Cairo", country: "Egypt" },
+    { city: "Jakarta", country: "Indonesia" },
+    { city: "Kuala Lumpur", country: "Malaysia" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-8">
+    <div className="min-h-screen bg-[#f3f6f4] p-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold text-slate-900">Islamic Prayer Times</h1>
-          <p className="text-slate-600">Select your city to view prayer times</p>
+        {/* Islamic Pattern Background */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none"
+             style={{
+               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23015c3b' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+             }}
+        />
+
+        <div className="text-center space-y-4 relative">
+          <h1 className="text-4xl font-bold text-emerald-900">Islamic Prayer Times</h1>
+          <p className="text-emerald-700">Select your city to view prayer times</p>
         </div>
 
         <div className="w-full max-w-xs mx-auto">
-          <Select
-            value={`${selectedCity}-${selectedCountry}`}
-            onValueChange={(value) => {
-              const [city, country] = value.split("-");
-              setSelectedCity(city);
-              setSelectedCountry(country);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select a city" />
-            </SelectTrigger>
-            <SelectContent>
-              {cities.map(({ city, country }) => (
-                <SelectItem key={`${city}-${country}`} value={`${city}-${country}`}>
-                  {city}, {country}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-full justify-between bg-white hover:bg-emerald-50"
+              >
+                {`${selectedCity}, ${selectedCountry}`}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0">
+              <Command>
+                <CommandInput placeholder="Search city..." />
+                <CommandEmpty>No city found.</CommandEmpty>
+                <CommandGroup>
+                  {cities.map(({ city, country }) => (
+                    <CommandItem
+                      key={`${city}-${country}`}
+                      value={`${city}-${country}`}
+                      onSelect={() => {
+                        setSelectedCity(city);
+                        setSelectedCountry(country);
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          selectedCity === city ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {city}, {country}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
 
         {isLoading ? (
-          <div className="text-center text-slate-600">Loading prayer times...</div>
+          <div className="text-center text-emerald-700">Loading prayer times...</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
-              <Card key={prayer} className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-center text-lg">{prayer}</CardTitle>
+              <Card key={prayer} className="bg-white border-emerald-100 hover:shadow-lg transition-shadow duration-300">
+                <CardHeader className="bg-emerald-50 rounded-t-lg border-b border-emerald-100">
+                  <CardTitle className="text-center text-lg text-emerald-800">{prayer}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-center text-2xl font-semibold">{time}</p>
+                  <p className="text-center text-2xl font-semibold text-emerald-900 py-4">{time}</p>
                 </CardContent>
               </Card>
             ))}
