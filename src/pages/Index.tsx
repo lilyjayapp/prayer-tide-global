@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Clock, MapPin } from "lucide-react";
 
 interface PrayerTimes {
   Fajr: string;
@@ -26,22 +26,41 @@ interface City {
 }
 
 const cities: City[] = [
-  { city: "London", country: "UK" },
-  { city: "Paris", country: "France" },
-  { city: "New York", country: "USA" },
-  { city: "Dubai", country: "UAE" },
-  { city: "Istanbul", country: "Turkey" },
-  { city: "Mecca", country: "Saudi Arabia" },
-  { city: "Medina", country: "Saudi Arabia" },
+  { city: "Abu Dhabi", country: "UAE" },
+  { city: "Amsterdam", country: "Netherlands" },
+  { city: "Bangkok", country: "Thailand" },
+  { city: "Barcelona", country: "Spain" },
+  { city: "Berlin", country: "Germany" },
   { city: "Cairo", country: "Egypt" },
+  { city: "Cape Town", country: "South Africa" },
+  { city: "Chicago", country: "USA" },
+  { city: "Dubai", country: "UAE" },
+  { city: "Hong Kong", country: "China" },
+  { city: "Istanbul", country: "Turkey" },
   { city: "Jakarta", country: "Indonesia" },
   { city: "Kuala Lumpur", country: "Malaysia" },
-];
+  { city: "London", country: "UK" },
+  { city: "Los Angeles", country: "USA" },
+  { city: "Madrid", country: "Spain" },
+  { city: "Mecca", country: "Saudi Arabia" },
+  { city: "Medina", country: "Saudi Arabia" },
+  { city: "Melbourne", country: "Australia" },
+  { city: "Moscow", country: "Russia" },
+  { city: "Mumbai", country: "India" },
+  { city: "New York", country: "USA" },
+  { city: "Paris", country: "France" },
+  { city: "Rio de Janeiro", country: "Brazil" },
+  { city: "Rome", country: "Italy" },
+  { city: "Singapore", country: "Singapore" },
+  { city: "Sydney", country: "Australia" },
+  { city: "Tokyo", country: "Japan" },
+  { city: "Toronto", country: "Canada" },
+  { city: "Vancouver", country: "Canada" }
+].sort((a, b) => a.city.localeCompare(b.city));
 
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
   const [selectedCountry, setSelectedCountry] = useState<string>("UK");
-  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -55,12 +74,6 @@ const Index = () => {
     },
   });
 
-  const filteredCities = cities.filter(
-    (city) =>
-      city.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      city.country.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const handleCitySelect = (value: string) => {
     const [city, country] = value.split("-");
     setSelectedCity(city);
@@ -68,7 +81,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f6f4] p-8">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white p-8">
       <div className="max-w-4xl mx-auto space-y-8">
         <div 
           className="absolute inset-0 opacity-5 pointer-events-none"
@@ -78,26 +91,23 @@ const Index = () => {
         />
 
         <div className="text-center space-y-4 relative">
-          <h1 className="text-4xl font-bold text-emerald-900">Islamic Prayer Times</h1>
-          <p className="text-emerald-700">Select your city to view prayer times</p>
+          <h1 className="text-5xl font-bold text-emerald-900 tracking-tight">
+            Islamic Prayer Times
+          </h1>
+          <p className="text-emerald-700 text-lg">
+            Select your city to view daily prayer times
+          </p>
         </div>
 
-        <div className="w-full max-w-xs mx-auto space-y-2">
-          <Input
-            type="text"
-            placeholder="Search cities..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full"
-          />
-          
+        <div className="w-full max-w-xs mx-auto">
           <Select onValueChange={handleCitySelect} value={`${selectedCity}-${selectedCountry}`}>
-            <SelectTrigger className="w-full bg-white">
+            <SelectTrigger className="w-full bg-white/80 backdrop-blur-sm border-emerald-200 hover:border-emerald-300 transition-colors">
+              <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
               <SelectValue placeholder="Select a city" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[300px]">
               <SelectGroup>
-                {filteredCities.map((cityItem) => (
+                {cities.map((cityItem) => (
                   <SelectItem
                     key={`${cityItem.city}-${cityItem.country}`}
                     value={`${cityItem.city}-${cityItem.country}`}
@@ -115,9 +125,12 @@ const Index = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
-              <Card key={prayer} className="bg-white border-emerald-100 hover:shadow-lg transition-shadow duration-300">
-                <CardHeader className="bg-emerald-50 rounded-t-lg border-b border-emerald-100">
-                  <CardTitle className="text-center text-lg text-emerald-800">{prayer}</CardTitle>
+              <Card key={prayer} className="bg-white/80 backdrop-blur-sm border-emerald-100 hover:shadow-lg transition-all duration-300 group">
+                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100">
+                  <CardTitle className="text-center text-lg text-emerald-800 flex items-center justify-center gap-2">
+                    <Clock className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
+                    {prayer}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-center text-2xl font-semibold text-emerald-900 py-4">{time}</p>
