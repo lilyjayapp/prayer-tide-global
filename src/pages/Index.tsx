@@ -9,7 +9,10 @@ import { Location, DEFAULT_PRAYER_TIMES } from "@/types/prayer";
 
 // Filter cities data to reduce memory usage and improve performance
 const locations: Location[] = (citiesData as any[])
-  .filter(city => city.population > 1000000)
+  .filter(city => {
+    console.log("Processing city:", city); // Debug log to see raw city data
+    return city.population && Number(city.population) > 1000000;
+  })
   .map(city => ({
     city: city.name,
     country: city.country,
@@ -18,7 +21,8 @@ const locations: Location[] = (citiesData as any[])
   }))
   .sort((a, b) => a.city.localeCompare(b.city));
 
-console.log("Filtered locations:", locations); // Debug log to verify data
+console.log("Total filtered locations:", locations.length); // Debug log
+console.log("First few locations:", locations.slice(0, 5)); // Debug log
 
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
