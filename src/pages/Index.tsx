@@ -35,6 +35,7 @@ const cities: City[] = [
 
 const Index = () => {
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(""); // Add this for command value tracking
   const [selectedCity, setSelectedCity] = useState<string>("London");
   const [selectedCountry, setSelectedCountry] = useState<string>("UK");
 
@@ -50,20 +51,22 @@ const Index = () => {
     },
   });
 
-  const handleSelect = (value: string) => {
-    const [city, country] = value.split("-");
+  const handleSelect = (currentValue: string) => {
+    const [city, country] = currentValue.split("-");
     setSelectedCity(city);
     setSelectedCountry(country);
+    setValue(currentValue);
     setOpen(false);
   };
 
   return (
     <div className="min-h-screen bg-[#f3f6f4] p-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="absolute inset-0 opacity-5 pointer-events-none"
-             style={{
-               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23015c3b' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-             }}
+        <div 
+          className="absolute inset-0 opacity-5 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23015c3b' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
         />
 
         <div className="text-center space-y-4 relative">
@@ -85,10 +88,10 @@ const Index = () => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
-              <Command shouldFilter={true}>
+              <Command value={value} onValueChange={setValue}>
                 <CommandInput placeholder="Search city..." />
                 <CommandEmpty>No city found.</CommandEmpty>
-                <CommandGroup>
+                <CommandGroup heading="Cities">
                   {cities.map((cityItem) => (
                     <CommandItem
                       key={`${cityItem.city}-${cityItem.country}`}
