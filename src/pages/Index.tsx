@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Clock, Mosque } from "lucide-react";
+import { Clock, Landmark } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -93,7 +93,7 @@ const Index = () => {
                   value={`${city.name}-${city.country}`}
                 >
                   <div className="flex items-center">
-                    <Mosque className="w-4 h-4 mr-2 text-emerald-600" />
+                    <Landmark className="w-4 h-4 mr-2 text-emerald-600" />
                     {city.name}, {city.country}
                   </div>
                 </SelectItem>
