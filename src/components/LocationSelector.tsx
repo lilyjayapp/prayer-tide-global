@@ -35,3 +35,4 @@ export const LocationSelector = ({ locations, onLocationSelect, defaultValue }: 
       </SelectContent>
     </Select>
   </div>
+);

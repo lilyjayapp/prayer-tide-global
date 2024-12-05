@@ -25,3 +25,4 @@ export const PrayerTimeCards = ({ prayerTimes }: PrayerTimeCardsProps) => (
       One pray at a time
     </div>
   </div>
+);
