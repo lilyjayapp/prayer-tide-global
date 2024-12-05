@@ -102,7 +102,7 @@ const Index = () => {
         {isLoading ? (
           <div className="text-center text-white/80">Loading prayer times...</div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 relative">
             {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
               <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
                 <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
@@ -116,6 +116,11 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
+            
+            {/* Slogan added back near the Isha card */}
+            <div className="absolute bottom-0 right-0 p-4 text-sm text-white/70 font-dancing-script opacity-80">
+              One pray at a time
+            </div>
           </div>
         )}
       </div>
