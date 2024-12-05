@@ -73,6 +73,9 @@ const Index = () => {
           <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg font-serif">
             Prayer Times
           </h1>
+          <p className="text-2xl text-white/80 font-dancing-script">
+            Stay connected with your daily prayers
+          </p>
         </div>
 
         <div className="w-full max-w-xs mx-auto">
