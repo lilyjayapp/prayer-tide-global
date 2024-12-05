@@ -105,7 +105,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90 pb-16">
+    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90">
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
         style={{
@@ -113,7 +113,7 @@ const Index = () => {
         }}
       />
 
-      <div className="max-w-4xl mx-auto space-y-8 relative p-8 pt-16 md:pt-8">
+      <div className="max-w-4xl mx-auto space-y-8 relative p-8 py-16">
         <div className="text-center space-y-6">
           <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg font-serif">
             Prayer Times
