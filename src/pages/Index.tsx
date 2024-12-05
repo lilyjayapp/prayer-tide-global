@@ -118,9 +118,18 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
-            <div className="absolute -bottom-8 right-0 text-sm text-emerald-100/70 font-serif italic">
-              One pray at a time
-            </div>
+            <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
+              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
+                <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
+                  Connect
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-3">
+                <p className="text-center text-xl font-serif italic text-emerald-950">
+                  One pray at a time
+                </p>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>
