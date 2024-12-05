@@ -19,7 +19,39 @@ const cities = [
   { name: "Dubai", country: "UAE" },
   { name: "Singapore", country: "Singapore" },
   { name: "Kuala Lumpur", country: "Malaysia" },
-  { name: "Jakarta", country: "Indonesia" }
+  { name: "Jakarta", country: "Indonesia" },
+  { name: "Paris", country: "France" },
+  { name: "Berlin", country: "Germany" },
+  { name: "Rome", country: "Italy" },
+  { name: "Madrid", country: "Spain" },
+  { name: "Moscow", country: "Russia" },
+  { name: "Cairo", country: "Egypt" },
+  { name: "Mumbai", country: "India" },
+  { name: "Beijing", country: "China" },
+  { name: "Seoul", country: "South Korea" },
+  { name: "Sydney", country: "Australia" },
+  { name: "Toronto", country: "Canada" },
+  { name: "Mexico City", country: "Mexico" },
+  { name: "São Paulo", country: "Brazil" },
+  { name: "Buenos Aires", country: "Argentina" },
+  { name: "Cape Town", country: "South Africa" },
+  { name: "Lagos", country: "Nigeria" },
+  { name: "Riyadh", country: "Saudi Arabia" },
+  { name: "Tehran", country: "Iran" },
+  { name: "Bangkok", country: "Thailand" },
+  { name: "Hong Kong", country: "China" },
+  { name: "Amsterdam", country: "Netherlands" },
+  { name: "Vienna", country: "Austria" },
+  { name: "Stockholm", country: "Sweden" },
+  { name: "Oslo", country: "Norway" },
+  { name: "Copenhagen", country: "Denmark" },
+  { name: "Warsaw", country: "Poland" },
+  { name: "Prague", country: "Czech Republic" },
+  { name: "Athens", country: "Greece" },
+  { name: "Budapest", country: "Hungary" },
+  { name: "Lisbon", country: "Portugal" },
+  { name: "Dublin", country: "Ireland" },
+  { name: "Brussels", country: "Belgium" }
 ];
 
 const DEFAULT_PRAYER_TIMES = {
@@ -85,7 +117,7 @@ const Index = () => {
             <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
               <SelectValue placeholder="Select a city" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[300px] overflow-y-auto">
               {cities.map((city) => (
                 <SelectItem 
                   key={`${city.name}-${city.country}`}
@@ -120,18 +152,6 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
-            <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
-                <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
-                  Connect
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-3">
-                <p className="text-center text-xl font-serif italic text-emerald-950">
-                  One pray at a time
-                </p>
-              </CardContent>
-            </Card>
           </div>
         )}
       </div>
