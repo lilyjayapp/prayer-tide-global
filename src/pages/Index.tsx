@@ -147,25 +147,25 @@ const Index = () => {
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
               <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
+                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
                   <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
                     <Clock className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
                     {prayer}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-center text-2xl font-semibold text-emerald-950 py-4">{time}</p>
+                <CardContent className="p-3">
+                  <p className="text-center text-2xl font-semibold text-emerald-950">{time}</p>
                 </CardContent>
               </Card>
             ))}
             <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
+              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
                 <CardTitle className="text-center text-lg text-emerald-900">
                   Inspiration
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="font-dancing-script text-2xl text-emerald-900 italic tracking-wide py-4">
+              <CardContent className="p-3">
+                <p className="font-dancing-script text-xl text-emerald-900 italic tracking-wide">
                   Stay Connected to Allah, One Prayer at a Time
                 </p>
               </CardContent>
