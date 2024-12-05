@@ -165,12 +165,12 @@ const Index = () => {
               <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
                 <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
                   <Landmark className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
-                  Slogan
+                  Connect
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-3">
-                <p className="text-center text-2xl font-semibold text-emerald-950 font-serif italic">
-                  One pray at a time
+                <p className="text-center text-xl font-semibold text-emerald-950 font-serif italic">
+                  Bridging hearts through prayer
                 </p>
               </CardContent>
             </Card>
