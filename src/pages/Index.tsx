@@ -10,8 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useGeolocation } from "@/hooks/useGeolocation";
 
-// Simplified city data structure
 const cities = [
   { name: "London", country: "UK" },
   { name: "New York", country: "USA" },
@@ -33,6 +34,7 @@ const DEFAULT_PRAYER_TIMES = {
 
 const Index = () => {
   const [selectedLocation, setSelectedLocation] = useState("London-UK");
+  const { getLocation, isLoading: isLoadingLocation } = useGeolocation();
 
   const { data: prayerTimes = DEFAULT_PRAYER_TIMES, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedLocation],
@@ -59,6 +61,28 @@ const Index = () => {
     },
   });
 
+  const handleLocationDetection = async () => {
+    const location = await getLocation();
+    if (location) {
+      const cityMatch = cities.find(
+        city => 
+          city.name.toLowerCase() === location.city.toLowerCase() ||
+          city.country.toLowerCase() === location.country.toLowerCase()
+      );
+      
+      if (cityMatch) {
+        setSelectedLocation(`${cityMatch.name}-${cityMatch.country}`);
+        toast.success("Location detected!", {
+          description: `Found your location: ${cityMatch.name}, ${cityMatch.country}`
+        });
+      } else {
+        toast.error("City not in our database", {
+          description: "Please select your location manually"
+        });
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90 py-16">
       <div 
@@ -75,28 +99,38 @@ const Index = () => {
           </h1>
         </div>
 
-        <div className="w-full max-w-xs mx-auto">
-          <Select 
-            onValueChange={setSelectedLocation} 
-            defaultValue={selectedLocation}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="w-full max-w-xs">
+            <Select 
+              onValueChange={setSelectedLocation} 
+              value={selectedLocation}
+            >
+              <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
+                <SelectValue placeholder="Select a city" />
+              </SelectTrigger>
+              <SelectContent>
+                {cities.map((city) => (
+                  <SelectItem 
+                    key={`${city.name}-${city.country}`}
+                    value={`${city.name}-${city.country}`}
+                  >
+                    <div className="flex items-center">
+                      <Landmark className="w-4 h-4 mr-2 text-emerald-600" />
+                      {city.name}, {city.country}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={handleLocationDetection}
+            disabled={isLoadingLocation}
+            className="bg-white/90 hover:bg-white"
           >
-            <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
-              <SelectValue placeholder="Select a city" />
-            </SelectTrigger>
-            <SelectContent>
-              {cities.map((city) => (
-                <SelectItem 
-                  key={`${city.name}-${city.country}`}
-                  value={`${city.name}-${city.country}`}
-                >
-                  <div className="flex items-center">
-                    <Landmark className="w-4 h-4 mr-2 text-emerald-600" />
-                    {city.name}, {city.country}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            {isLoadingLocation ? "Detecting..." : "Detect Location"}
+          </Button>
         </div>
 
         {isLoading ? (
