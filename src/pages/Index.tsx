@@ -30,8 +30,8 @@ interface Location {
 
 // Strictly filter cities data to reduce memory usage
 const locations: Location[] = (citiesData as any[])
-  .filter(city => city.population > 5000000) // Only mega-cities (5M+ population)
-  .slice(0, 100) // Limit to top 100 cities
+  .filter(city => city.population > 5000000)
+  .slice(0, 50) // Reduced to top 50 cities
   .map(city => ({
     city: city.name,
     country: city.country,
@@ -58,15 +58,14 @@ const Index = () => {
     },
   });
 
-  // Simplified filtering logic with smaller result set
-  const filteredLocations = !searchQuery 
-    ? locations.slice(0, 10) // Show only first 10 cities when no search
-    : locations
-        .filter(location => {
-          const searchLower = searchQuery.toLowerCase();
-          return location.city.toLowerCase().includes(searchLower);
-        })
-        .slice(0, 10); // Limit search results to 10 cities
+  // Only show filtered results when there's a search query
+  const filteredLocations = searchQuery.length > 0
+    ? locations
+        .filter(location => 
+          location.city.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        .slice(0, 5) // Show only top 5 matching results
+    : [];
 
   const handleLocationSelect = (location: Location) => {
     setSelectedCity(location.city);
@@ -103,24 +102,26 @@ const Index = () => {
           <CommandDialog open={open} onOpenChange={setOpen}>
             <Command>
               <CommandInput 
-                placeholder="Search cities..." 
+                placeholder="Start typing to search cities..." 
                 value={searchQuery}
                 onValueChange={setSearchQuery}
               />
               <CommandList>
                 <CommandEmpty>No cities found.</CommandEmpty>
-                <CommandGroup heading="Cities">
-                  {filteredLocations.map((location) => (
-                    <CommandItem
-                      key={`${location.city}-${location.country}`}
-                      value={`${location.city}-${location.country}`}
-                      onSelect={() => handleLocationSelect(location)}
-                    >
-                      <MapPin className="mr-2 h-4 w-4" />
-                      {location.city}, {location.country}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+                {searchQuery.length > 0 && (
+                  <CommandGroup heading="Cities">
+                    {filteredLocations.map((location) => (
+                      <CommandItem
+                        key={`${location.city}-${location.country}`}
+                        value={`${location.city}-${location.country}`}
+                        onSelect={() => handleLocationSelect(location)}
+                      >
+                        <MapPin className="mr-2 h-4 w-4" />
+                        {location.city}, {location.country}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
               </CommandList>
             </Command>
           </CommandDialog>
