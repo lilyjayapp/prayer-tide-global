@@ -21,7 +21,12 @@ interface TimingsResponse {
   };
 }
 
-const cities = [
+interface City {
+  city: string;
+  country: string;
+}
+
+const cities: City[] = [
   { city: "London", country: "UK" },
   { city: "Paris", country: "France" },
   { city: "New York", country: "USA" },
@@ -32,12 +37,12 @@ const cities = [
   { city: "Cairo", country: "Egypt" },
   { city: "Jakarta", country: "Indonesia" },
   { city: "Kuala Lumpur", country: "Malaysia" },
-] as const;
+];
 
 const Index = () => {
   const [open, setOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(cities[0].city);
-  const [selectedCountry, setSelectedCountry] = useState(cities[0].country);
+  const [selectedCity, setSelectedCity] = useState<string>(cities[0].city);
+  const [selectedCountry, setSelectedCountry] = useState<string>(cities[0].country);
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -84,23 +89,23 @@ const Index = () => {
                 <CommandInput placeholder="Search city..." />
                 <CommandEmpty>No city found.</CommandEmpty>
                 <CommandGroup>
-                  {cities.map(({ city, country }) => (
+                  {cities.map((cityItem) => (
                     <CommandItem
-                      key={`${city}-${country}`}
-                      value={`${city}-${country}`}
+                      key={`${cityItem.city}-${cityItem.country}`}
+                      value={`${cityItem.city}-${cityItem.country}`}
                       onSelect={() => {
-                        setSelectedCity(city);
-                        setSelectedCountry(country);
+                        setSelectedCity(cityItem.city);
+                        setSelectedCountry(cityItem.country);
                         setOpen(false);
                       }}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          selectedCity === city ? "opacity-100" : "opacity-0"
+                          selectedCity === cityItem.city ? "opacity-100" : "opacity-0"
                         )}
                       />
-                      {city}, {country}
+                      {cityItem.city}, {cityItem.country}
                     </CommandItem>
                   ))}
                 </CommandGroup>
