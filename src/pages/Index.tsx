@@ -1,31 +1,11 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, MapPin, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import citiesData from "cities.json";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
-
-interface PrayerTimes {
-  Fajr: string;
-  Dhuhr: string;
-  Asr: string;
-  Maghrib: string;
-  Isha: string;
-}
-
-interface Location {
-  city: string;
-  country: string;
-  lat: number;
-  lng: number;
-}
+import { LocationSelector } from "@/components/LocationSelector";
+import { PrayerTimeCards } from "@/components/PrayerTimeCards";
+import { Location, DEFAULT_PRAYER_TIMES } from "@/types/prayer";
 
 // Filter cities data to reduce memory usage
 const locations: Location[] = (citiesData as any[])
@@ -37,14 +17,6 @@ const locations: Location[] = (citiesData as any[])
     lng: city.lng
   }))
   .sort((a, b) => a.city.localeCompare(b.city));
-
-const DEFAULT_PRAYER_TIMES = {
-  Fajr: "05:00",
-  Dhuhr: "12:00",
-  Asr: "15:30",
-  Maghrib: "18:00",
-  Isha: "19:30"
-};
 
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
@@ -101,50 +73,16 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="w-full max-w-xs mx-auto">
-          <Select onValueChange={handleLocationSelect} defaultValue={`${selectedCity}-${selectedCountry}`}>
-            <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
-              <SelectValue placeholder="Select a city" />
-            </SelectTrigger>
-            <SelectContent>
-              {locations.map((location) => (
-                <SelectItem 
-                  key={`${location.city}-${location.country}`}
-                  value={`${location.city}-${location.country}`}
-                >
-                  <div className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
-                    {location.city}, {location.country}
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <LocationSelector 
+          locations={locations} 
+          onLocationSelect={handleLocationSelect}
+          defaultValue={`${selectedCity}-${selectedCountry}`}
+        />
 
         {isLoading ? (
           <div className="text-center text-white/80">Loading prayer times...</div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 relative">
-            {(prayerData || DEFAULT_PRAYER_TIMES) && Object.entries(prayerData || DEFAULT_PRAYER_TIMES).map(([prayer, time]) => (
-              <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
-                  <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
-                    <Clock className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
-                    {prayer}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3">
-                  <p className="text-center text-2xl font-semibold text-emerald-950">{time}</p>
-                </CardContent>
-              </Card>
-            ))}
-            
-            {/* Slogan added back near the Isha card */}
-            <div className="absolute bottom-0 right-0 p-4 text-sm text-white/70 font-dancing-script opacity-80">
-              One pray at a time
-            </div>
-          </div>
+          <PrayerTimeCards prayerTimes={prayerData || DEFAULT_PRAYER_TIMES} />
         )}
 
         {isError && (
