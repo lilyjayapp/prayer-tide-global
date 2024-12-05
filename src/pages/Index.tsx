@@ -105,29 +105,25 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white p-8 relative">
-      {/* Islamic Pattern Background */}
+    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90">
+      {/* Mosque Background */}
       <div 
-        className="absolute inset-0 opacity-5 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23015c3b' fill-opacity='0.4'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&w=2834&q=80")`,
         }}
       />
 
-      <div className="max-w-4xl mx-auto space-y-8 relative">
-        <div className="text-center space-y-4">
-          <h1 className="text-6xl font-bold text-emerald-900 tracking-tight">
+      <div className="max-w-4xl mx-auto space-y-8 relative p-8">
+        <div className="text-center space-y-6">
+          <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg">
             Prayer Times
           </h1>
-          <div className="h-16 w-full bg-contain bg-center bg-no-repeat opacity-30"
-               style={{
-                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='20' viewBox='0 0 200 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 C50 0, 150 0, 200 10 C150 20, 50 20, 0 10' stroke='%23047857' fill='none' /%3E%3C/svg%3E")`
-               }} />
         </div>
 
         <div className="w-full max-w-xs mx-auto">
           <Select onValueChange={handleCitySelect} value={`${selectedCity}-${selectedCountry}`}>
-            <SelectTrigger className="w-full bg-white/80 backdrop-blur-sm border-emerald-200 hover:border-emerald-300 transition-colors">
+            <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300 transition-colors">
               <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
               <SelectValue placeholder="Select a city" />
             </SelectTrigger>
@@ -147,24 +143,19 @@ const Index = () => {
         </div>
 
         {isLoading ? (
-          <div className="text-center text-emerald-700">Loading prayer times...</div>
+          <div className="text-center text-white/80">Loading prayer times...</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
-              <Card key={prayer} className="bg-white/80 backdrop-blur-sm border-emerald-100 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
-                <div className="absolute inset-0 opacity-5 pointer-events-none"
-                     style={{
-                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20 L40 20 L30 30 L20 20 L10 30 L0 20 L20 20' stroke='%23047857' fill='none' /%3E%3C/svg%3E")`,
-                       backgroundSize: '40px 40px'
-                     }} />
-                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100">
-                  <CardTitle className="text-center text-lg text-emerald-800 flex items-center justify-center gap-2">
+              <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
+                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
+                  <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
                     <Clock className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
                     {prayer}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-center text-2xl font-semibold text-emerald-900 py-4">{time}</p>
+                  <p className="text-center text-2xl font-semibold text-emerald-950 py-4">{time}</p>
                 </CardContent>
               </Card>
             ))}
