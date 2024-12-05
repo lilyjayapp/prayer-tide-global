@@ -106,7 +106,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90">
-      {/* Mosque Background */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
         style={{
@@ -145,28 +144,28 @@ const Index = () => {
         {isLoading ? (
           <div className="text-center text-white/80">Loading prayer times...</div>
         ) : (
-          <>
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-              {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
-                <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-                  <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
-                    <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
-                      <Clock className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
-                      {prayer}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-center text-2xl font-semibold text-emerald-950 py-4">{time}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="text-center mt-8">
-              <p className="font-dancing-script text-2xl text-white/90 italic tracking-wide">
-                Stay Connected to Allah, One Prayer at a Time
-              </p>
-            </div>
-          </>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
+              <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
+                <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
+                  <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
+                    <Clock className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
+                    {prayer}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-center text-2xl font-semibold text-emerald-950 py-4">{time}</p>
+                </CardContent>
+              </Card>
+            ))}
+            <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
+              <CardContent className="flex items-center justify-center h-full">
+                <p className="font-dancing-script text-2xl text-emerald-900 italic tracking-wide px-4 py-8">
+                  Stay Connected to Allah, One Prayer at a Time
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </div>
