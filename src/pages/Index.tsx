@@ -7,7 +7,7 @@ import { LocationSelector } from "@/components/LocationSelector";
 import { PrayerTimeCards } from "@/components/PrayerTimeCards";
 import { Location, DEFAULT_PRAYER_TIMES } from "@/types/prayer";
 
-// Filter cities data to reduce memory usage
+// Filter cities data to reduce memory usage and improve performance
 const locations: Location[] = (citiesData as any[])
   .filter(city => city.population > 1000000)
   .map(city => ({
@@ -17,6 +17,8 @@ const locations: Location[] = (citiesData as any[])
     lng: city.lng
   }))
   .sort((a, b) => a.city.localeCompare(b.city));
+
+console.log("Filtered locations:", locations); // Debug log to verify data
 
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
@@ -49,6 +51,7 @@ const Index = () => {
   });
 
   const handleLocationSelect = (value: string) => {
+    console.log("Selected location:", value); // Debug log
     const [city, country] = value.split("-");
     setSelectedCity(city);
     setSelectedCountry(country);
