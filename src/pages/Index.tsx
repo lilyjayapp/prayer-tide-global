@@ -170,7 +170,7 @@ const Index = () => {
               </CardHeader>
               <CardContent className="p-3">
                 <p className="text-center text-xl font-semibold text-emerald-950 font-serif italic">
-                  Bridging hearts through prayer
+                  One pray at a time
                 </p>
               </CardContent>
             </Card>
