@@ -105,7 +105,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90">
+    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90 pb-16">
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
         style={{
@@ -166,7 +166,7 @@ const Index = () => {
               </CardHeader>
               <CardContent className="p-3">
                 <p className="font-dancing-script text-xl text-emerald-900 italic tracking-wide">
-                  Stay Connected to Allah, One Prayer at a Time
+                  Connected to Allah, One Prayer at a Time
                 </p>
               </CardContent>
             </Card>
