@@ -30,7 +30,7 @@ interface Location {
 
 // Process and sort cities data
 const locations: Location[] = (citiesData as any[])
-  .filter(city => city.population > 100000) // Only include cities with population > 100k
+  .filter(city => city.population > 100000)
   .map(city => ({
     city: city.name,
     country: city.country,
@@ -72,7 +72,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90">
+    <div className="min-h-screen relative bg-gradient-to-b from-emerald-900/90 to-emerald-950/90 py-16">
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
         style={{
@@ -80,7 +80,7 @@ const Index = () => {
         }}
       />
 
-      <div className="max-w-4xl mx-auto space-y-8 relative py-16">
+      <div className="max-w-4xl mx-auto space-y-8 relative">
         <div className="text-center space-y-6">
           <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg font-serif">
             Prayer Times
@@ -106,7 +106,7 @@ const Index = () => {
               />
               <CommandList>
                 <CommandEmpty>No cities found.</CommandEmpty>
-                <CommandGroup>
+                <CommandGroup heading="Cities">
                   {filteredLocations.slice(0, 100).map((location) => (
                     <CommandItem
                       key={`${location.city}-${location.country}`}
