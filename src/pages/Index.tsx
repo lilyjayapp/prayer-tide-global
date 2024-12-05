@@ -28,9 +28,10 @@ interface Location {
   lng: number;
 }
 
-// Process and sort cities data
+// Process cities data more efficiently
 const locations: Location[] = (citiesData as any[])
-  .filter(city => city.population > 100000)
+  .filter(city => city.population > 500000) // Increased population threshold
+  .slice(0, 1000) // Limit to top 1000 cities
   .map(city => ({
     city: city.name,
     country: city.country,
@@ -58,12 +59,13 @@ const Index = () => {
   });
 
   const filteredLocations = locations.filter(location => {
+    if (!searchQuery) return true;
     const searchLower = searchQuery.toLowerCase();
     return (
       location.city.toLowerCase().includes(searchLower) ||
       location.country.toLowerCase().includes(searchLower)
     );
-  });
+  }).slice(0, 50); // Limit filtered results
 
   const handleLocationSelect = (location: Location) => {
     setSelectedCity(location.city);
@@ -107,7 +109,7 @@ const Index = () => {
               <CommandList>
                 <CommandEmpty>No cities found.</CommandEmpty>
                 <CommandGroup heading="Cities">
-                  {filteredLocations.slice(0, 100).map((location) => (
+                  {filteredLocations.map((location) => (
                     <CommandItem
                       key={`${location.city}-${location.country}`}
                       value={`${location.city}-${location.country}`}
