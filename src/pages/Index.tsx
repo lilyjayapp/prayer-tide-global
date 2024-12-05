@@ -41,8 +41,8 @@ const cities: City[] = [
 
 const Index = () => {
   const [open, setOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string>(cities[0].city);
-  const [selectedCountry, setSelectedCountry] = useState<string>(cities[0].country);
+  const [selectedCity, setSelectedCity] = useState<string>("London");
+  const [selectedCountry, setSelectedCountry] = useState<string>("UK");
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -55,6 +55,13 @@ const Index = () => {
       return { Fajr, Dhuhr, Asr, Maghrib, Isha };
     },
   });
+
+  const handleSelect = (value: string) => {
+    const [city, country] = value.split("-");
+    setSelectedCity(city);
+    setSelectedCountry(country);
+    setOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#f3f6f4] p-8">
@@ -79,38 +86,32 @@ const Index = () => {
                 aria-expanded={open}
                 className="w-full justify-between bg-white hover:bg-emerald-50"
               >
-                {`${selectedCity}, ${selectedCountry}`}
+                {selectedCity && selectedCountry ? `${selectedCity}, ${selectedCountry}` : "Select a city"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0" align="start">
-              {cities && cities.length > 0 && (
-                <Command>
-                  <CommandInput placeholder="Search city..." />
-                  <CommandEmpty>No city found.</CommandEmpty>
-                  <CommandGroup>
-                    {cities.map((cityItem) => (
-                      <CommandItem
-                        key={`${cityItem.city}-${cityItem.country}`}
-                        value={`${cityItem.city}-${cityItem.country}`}
-                        onSelect={() => {
-                          setSelectedCity(cityItem.city);
-                          setSelectedCountry(cityItem.country);
-                          setOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            selectedCity === cityItem.city ? "opacity-100" : "opacity-0"
-                          )}
-                        />
-                        {cityItem.city}, {cityItem.country}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              )}
+              <Command>
+                <CommandInput placeholder="Search city..." />
+                <CommandEmpty>No city found.</CommandEmpty>
+                <CommandGroup heading="Cities">
+                  {cities.map((cityItem) => (
+                    <CommandItem
+                      key={`${cityItem.city}-${cityItem.country}`}
+                      value={`${cityItem.city}-${cityItem.country}`}
+                      onSelect={handleSelect}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          selectedCity === cityItem.city ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {cityItem.city}, {cityItem.country}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </Command>
             </PopoverContent>
           </Popover>
         </div>
