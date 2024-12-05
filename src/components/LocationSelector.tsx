@@ -20,7 +20,7 @@ export const LocationSelector = ({ locations, onLocationSelect, defaultValue }: 
       <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
         <SelectValue placeholder="Select a city" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-h-[300px] overflow-y-auto">
         {locations.map((location) => (
           <SelectItem 
             key={`${location.city}-${location.country}`}
@@ -35,4 +35,3 @@ export const LocationSelector = ({ locations, onLocationSelect, defaultValue }: 
       </SelectContent>
     </Select>
   </div>
-);

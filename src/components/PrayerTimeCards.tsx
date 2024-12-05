@@ -21,9 +21,7 @@ export const PrayerTimeCards = ({ prayerTimes }: PrayerTimeCardsProps) => (
         </CardContent>
       </Card>
     ))}
-    
-    <div className="absolute bottom-0 right-0 p-4 text-sm text-white/70 font-dancing-script opacity-80">
+    <div className="absolute -bottom-8 right-0 text-sm text-emerald-100/70 font-serif italic">
       One pray at a time
     </div>
   </div>
-);
