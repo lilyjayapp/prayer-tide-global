@@ -2,14 +2,16 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { Clock, MapPin } from "lucide-react";
+import citiesData from "cities.json";
 
 interface PrayerTimes {
   Fajr: string;
@@ -22,69 +24,26 @@ interface PrayerTimes {
 interface Location {
   city: string;
   country: string;
+  lat: number;
+  lng: number;
 }
 
-const locations: Location[] = [
-  // Middle East
-  { city: "Mecca", country: "Saudi Arabia" },
-  { city: "Medina", country: "Saudi Arabia" },
-  { city: "Riyadh", country: "Saudi Arabia" },
-  { city: "Dubai", country: "UAE" },
-  { city: "Abu Dhabi", country: "UAE" },
-  { city: "Doha", country: "Qatar" },
-  { city: "Kuwait City", country: "Kuwait" },
-  { city: "Manama", country: "Bahrain" },
-  { city: "Muscat", country: "Oman" },
-  { city: "Baghdad", country: "Iraq" },
-  { city: "Tehran", country: "Iran" },
-  
-  // Asia
-  { city: "Jakarta", country: "Indonesia" },
-  { city: "Kuala Lumpur", country: "Malaysia" },
-  { city: "Islamabad", country: "Pakistan" },
-  { city: "Lahore", country: "Pakistan" },
-  { city: "Karachi", country: "Pakistan" },
-  { city: "Dhaka", country: "Bangladesh" },
-  { city: "Istanbul", country: "Turkey" },
-  { city: "Ankara", country: "Turkey" },
-  
-  // Africa
-  { city: "Cairo", country: "Egypt" },
-  { city: "Alexandria", country: "Egypt" },
-  { city: "Casablanca", country: "Morocco" },
-  { city: "Rabat", country: "Morocco" },
-  { city: "Tunis", country: "Tunisia" },
-  { city: "Algiers", country: "Algeria" },
-  { city: "Tripoli", country: "Libya" },
-  { city: "Khartoum", country: "Sudan" },
-  
-  // Europe
-  { city: "London", country: "UK" },
-  { city: "Birmingham", country: "UK" },
-  { city: "Paris", country: "France" },
-  { city: "Berlin", country: "Germany" },
-  { city: "Amsterdam", country: "Netherlands" },
-  { city: "Brussels", country: "Belgium" },
-  { city: "Moscow", country: "Russia" },
-  
-  // Americas
-  { city: "New York", country: "USA" },
-  { city: "Los Angeles", country: "USA" },
-  { city: "Chicago", country: "USA" },
-  { city: "Toronto", country: "Canada" },
-  { city: "Vancouver", country: "Canada" },
-  
-  // Asia Pacific
-  { city: "Sydney", country: "Australia" },
-  { city: "Melbourne", country: "Australia" },
-  { city: "Auckland", country: "New Zealand" },
-  { city: "Singapore", country: "Singapore" },
-  { city: "Tokyo", country: "Japan" }
-].sort((a, b) => a.city.localeCompare(b.city));
+// Process and sort cities data
+const locations: Location[] = (citiesData as any[])
+  .filter(city => city.population > 100000) // Only include cities with population > 100k
+  .map(city => ({
+    city: city.name,
+    country: city.country,
+    lat: city.lat,
+    lng: city.lng
+  }))
+  .sort((a, b) => a.city.localeCompare(b.city));
 
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
-  const [selectedCountry, setSelectedCountry] = useState<string>("UK");
+  const [selectedCountry, setSelectedCountry] = useState<string>("GB");
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -98,10 +57,18 @@ const Index = () => {
     },
   });
 
-  const handleCitySelect = (value: string) => {
-    const [city, country] = value.split("-");
-    setSelectedCity(city);
-    setSelectedCountry(country);
+  const filteredLocations = locations.filter(location => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      location.city.toLowerCase().includes(searchLower) ||
+      location.country.toLowerCase().includes(searchLower)
+    );
+  });
+
+  const handleLocationSelect = (location: Location) => {
+    setSelectedCity(location.city);
+    setSelectedCountry(location.country);
+    setOpen(false);
   };
 
   return (
@@ -113,7 +80,7 @@ const Index = () => {
         }}
       />
 
-      <div className="max-w-4xl mx-auto space-y-8 relative p-8 py-16">
+      <div className="max-w-4xl mx-auto space-y-8 relative py-16">
         <div className="text-center space-y-6">
           <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg font-serif">
             Prayer Times
@@ -121,24 +88,39 @@ const Index = () => {
         </div>
 
         <div className="w-full max-w-xs mx-auto">
-          <Select onValueChange={handleCitySelect} value={`${selectedCity}-${selectedCountry}`}>
-            <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300 transition-colors">
+          <button
+            className="w-full flex items-center justify-between px-3 py-2 bg-white/90 backdrop-blur-sm border border-emerald-200 hover:border-emerald-300 transition-colors rounded-md"
+            onClick={() => setOpen(true)}
+          >
+            <div className="flex items-center">
               <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
-              <SelectValue placeholder="Select a city" />
-            </SelectTrigger>
-            <SelectContent className="max-h-[300px]">
-              <SelectGroup>
-                {locations.map((location) => (
-                  <SelectItem
-                    key={`${location.city}-${location.country}`}
-                    value={`${location.city}-${location.country}`}
-                  >
-                    {location.city}, {location.country}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+              <span>{selectedCity}, {selectedCountry}</span>
+            </div>
+          </button>
+          <CommandDialog open={open} onOpenChange={setOpen}>
+            <Command>
+              <CommandInput 
+                placeholder="Search cities..." 
+                value={searchQuery}
+                onValueChange={setSearchQuery}
+              />
+              <CommandList>
+                <CommandEmpty>No cities found.</CommandEmpty>
+                <CommandGroup>
+                  {filteredLocations.slice(0, 100).map((location) => (
+                    <CommandItem
+                      key={`${location.city}-${location.country}`}
+                      value={`${location.city}-${location.country}`}
+                      onSelect={() => handleLocationSelect(location)}
+                    >
+                      <MapPin className="mr-2 h-4 w-4" />
+                      {location.city}, {location.country}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </CommandDialog>
         </div>
 
         {isLoading ? (
