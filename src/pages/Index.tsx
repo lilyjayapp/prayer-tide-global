@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import { Clock, MapPin } from "lucide-react";
 import citiesData from "cities.json";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PrayerTimes {
   Fajr: string;
@@ -28,10 +26,9 @@ interface Location {
   lng: number;
 }
 
-// Strictly filter cities data to reduce memory usage
+// Filter cities data to reduce memory usage
 const locations: Location[] = (citiesData as any[])
-  .filter(city => city.population > 5000000)
-  .slice(0, 50) // Reduced to top 50 cities
+  .filter(city => city.population > 1000000)
   .map(city => ({
     city: city.name,
     country: city.country,
@@ -43,8 +40,6 @@ const locations: Location[] = (citiesData as any[])
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
   const [selectedCountry, setSelectedCountry] = useState<string>("GB");
-  const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -58,19 +53,10 @@ const Index = () => {
     },
   });
 
-  // Only show filtered results when there's a search query
-  const filteredLocations = searchQuery.length > 0
-    ? locations
-        .filter(location => 
-          location.city.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        .slice(0, 5) // Show only top 5 matching results
-    : [];
-
-  const handleLocationSelect = (location: Location) => {
-    setSelectedCity(location.city);
-    setSelectedCountry(location.country);
-    setOpen(false);
+  const handleLocationSelect = (value: string) => {
+    const [city, country] = value.split("-");
+    setSelectedCity(city);
+    setSelectedCountry(country);
   };
 
   return (
@@ -90,41 +76,24 @@ const Index = () => {
         </div>
 
         <div className="w-full max-w-xs mx-auto">
-          <button
-            className="w-full flex items-center justify-between px-3 py-2 bg-white/90 backdrop-blur-sm border border-emerald-200 hover:border-emerald-300 transition-colors rounded-md"
-            onClick={() => setOpen(true)}
-          >
-            <div className="flex items-center">
-              <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
-              <span>{selectedCity}, {selectedCountry}</span>
-            </div>
-          </button>
-          <CommandDialog open={open} onOpenChange={setOpen}>
-            <Command>
-              <CommandInput 
-                placeholder="Start typing to search cities..." 
-                value={searchQuery}
-                onValueChange={setSearchQuery}
-              />
-              <CommandList>
-                <CommandEmpty>No cities found.</CommandEmpty>
-                {searchQuery.length > 0 && (
-                  <CommandGroup heading="Cities">
-                    {filteredLocations.map((location) => (
-                      <CommandItem
-                        key={`${location.city}-${location.country}`}
-                        value={`${location.city}-${location.country}`}
-                        onSelect={() => handleLocationSelect(location)}
-                      >
-                        <MapPin className="mr-2 h-4 w-4" />
-                        {location.city}, {location.country}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                )}
-              </CommandList>
-            </Command>
-          </CommandDialog>
+          <Select onValueChange={handleLocationSelect} defaultValue={`${selectedCity}-${selectedCountry}`}>
+            <SelectTrigger className="w-full bg-white/90 backdrop-blur-sm border-emerald-200 hover:border-emerald-300">
+              <SelectValue placeholder="Select a city" />
+            </SelectTrigger>
+            <SelectContent>
+              {locations.map((location) => (
+                <SelectItem 
+                  key={`${location.city}-${location.country}`}
+                  value={`${location.city}-${location.country}`}
+                >
+                  <div className="flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 text-emerald-600" />
+                    {location.city}, {location.country}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {isLoading ? (
@@ -144,18 +113,6 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
-            <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
-              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
-                <CardTitle className="text-center text-lg text-emerald-900">
-                  Inspiration
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-3">
-                <p className="font-dancing-script text-xl text-emerald-900 italic tracking-wide">
-                  One Prayer at a Time
-                </p>
-              </CardContent>
-            </Card>
           </div>
         )}
       </div>
