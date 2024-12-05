@@ -116,12 +116,9 @@ const Index = () => {
 
       <div className="max-w-4xl mx-auto space-y-8 relative">
         <div className="text-center space-y-4">
-          <h1 className="text-6xl font-bold text-emerald-900 tracking-tight font-arabic">
-            مواقيت الصلاة
-          </h1>
-          <p className="text-2xl text-emerald-700">
+          <h1 className="text-6xl font-bold text-emerald-900 tracking-tight">
             Prayer Times
-          </p>
+          </h1>
           <div className="h-16 w-full bg-contain bg-center bg-no-repeat opacity-30"
                style={{
                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='20' viewBox='0 0 200 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 C50 0, 150 0, 200 10 C150 20, 50 20, 0 10' stroke='%23047857' fill='none' /%3E%3C/svg%3E")`
