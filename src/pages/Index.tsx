@@ -114,7 +114,7 @@ const Index = () => {
         }}
       />
 
-      <div className="max-w-4xl mx-auto space-y-8 relative p-8">
+      <div className="max-w-4xl mx-auto space-y-8 relative p-8 pt-16 md:pt-8">
         <div className="text-center space-y-6">
           <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg font-serif">
             Prayer Times
@@ -145,7 +145,7 @@ const Index = () => {
         {isLoading ? (
           <div className="text-center text-white/80">Loading prayer times...</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
               <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
                 <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50">
