@@ -79,7 +79,7 @@ const cities: Location[] = [
   { city: "Vienna", country: "Austria", lat: 48.2082, lng: 16.3738 },
   { city: "Warsaw", country: "Poland", lat: 52.2297, lng: 21.0122 },
   { city: "Yangon", country: "Myanmar", lat: 16.8661, lng: 96.1951 }
-].sort((a, b) => a.city.localeCompare(b.city));
+];
 
 const DEFAULT_PRAYER_TIMES = {
   Fajr: "05:30",
@@ -161,6 +161,19 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
+            <Card className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
+              <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
+                <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
+                  <Landmark className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
+                  Slogan
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-3">
+                <p className="text-center text-2xl font-semibold text-emerald-950 font-serif italic">
+                  One pray at a time
+                </p>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>
