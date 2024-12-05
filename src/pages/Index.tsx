@@ -166,7 +166,7 @@ const Index = () => {
               </CardHeader>
               <CardContent className="p-3">
                 <p className="font-dancing-script text-xl text-emerald-900 italic tracking-wide">
-                  Connected to Allah, One Prayer at a Time
+                  One Prayer at a Time
                 </p>
               </CardContent>
             </Card>
