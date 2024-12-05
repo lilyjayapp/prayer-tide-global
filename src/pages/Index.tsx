@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, MapPin } from "lucide-react";
+import { Clock, MapPin, AlertTriangle } from "lucide-react";
 import citiesData from "cities.json";
 import {
   Select,
@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 interface PrayerTimes {
   Fajr: string;
@@ -37,20 +38,42 @@ const locations: Location[] = (citiesData as any[])
   }))
   .sort((a, b) => a.city.localeCompare(b.city));
 
+const DEFAULT_PRAYER_TIMES = {
+  Fajr: "05:00",
+  Dhuhr: "12:00",
+  Asr: "15:30",
+  Maghrib: "18:00",
+  Isha: "19:30"
+};
+
 const Index = () => {
   const [selectedCity, setSelectedCity] = useState<string>("London");
   const [selectedCountry, setSelectedCountry] = useState<string>("GB");
 
-  const { data: prayerData, isLoading } = useQuery({
+  const { data: prayerData, isLoading, isError } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
     queryFn: async () => {
-      const response = await fetch(
-        `https://api.aladhan.com/v1/timingsByCity?city=${selectedCity}&country=${selectedCountry}&method=2`
-      );
-      const data = await response.json();
-      const { Fajr, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
-      return { Fajr, Dhuhr, Asr, Maghrib, Isha };
+      try {
+        const response = await fetch(
+          `https://api.aladhan.com/v1/timingsByCity?city=${selectedCity}&country=${selectedCountry}&method=2`
+        );
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        const { Fajr, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
+        return { Fajr, Dhuhr, Asr, Maghrib, Isha };
+      } catch (error) {
+        console.error("Prayer times fetch error:", error);
+        toast.error("Unable to fetch prayer times. Using default times.", {
+          description: "Please check your internet connection."
+        });
+        return DEFAULT_PRAYER_TIMES;
+      }
     },
+    retry: 1,
   });
 
   const handleLocationSelect = (value: string) => {
@@ -103,7 +126,7 @@ const Index = () => {
           <div className="text-center text-white/80">Loading prayer times...</div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 relative">
-            {prayerData && Object.entries(prayerData).map(([prayer, time]) => (
+            {(prayerData || DEFAULT_PRAYER_TIMES) && Object.entries(prayerData || DEFAULT_PRAYER_TIMES).map(([prayer, time]) => (
               <Card key={prayer} className="bg-white/90 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300 group">
                 <CardHeader className="bg-emerald-50/50 rounded-t-lg border-b border-emerald-100/50 p-3">
                   <CardTitle className="text-center text-lg text-emerald-900 flex items-center justify-center gap-2">
@@ -121,6 +144,13 @@ const Index = () => {
             <div className="absolute bottom-0 right-0 p-4 text-sm text-white/70 font-dancing-script opacity-80">
               One pray at a time
             </div>
+          </div>
+        )}
+
+        {isError && (
+          <div className="text-center text-red-500 flex items-center justify-center gap-2">
+            <AlertTriangle className="w-6 h-6" />
+            Unable to fetch prayer times. Please try again later.
           </div>
         )}
       </div>
