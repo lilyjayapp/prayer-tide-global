@@ -110,13 +110,13 @@ const Index = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
         style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1466442929976-97f336a657be?auto=format&fit=crop&w=2834&q=80")`,
+          backgroundImage: `url("https://images.pexels.com/photos/1537086/pexels-photo-1537086.jpeg?auto=compress&cs=tinysrgb&w=1920")`
         }}
       />
 
       <div className="max-w-4xl mx-auto space-y-8 relative p-8">
         <div className="text-center space-y-6">
-          <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg">
+          <h1 className="text-7xl font-bold text-white tracking-tight drop-shadow-lg font-serif">
             Prayer Times
           </h1>
         </div>
