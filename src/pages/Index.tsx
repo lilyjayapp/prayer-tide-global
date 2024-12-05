@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { Command, CommandInput, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 interface PrayerTimes {
   Fajr: string;
@@ -34,10 +39,9 @@ const cities: City[] = [
 ];
 
 const Index = () => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(""); // Add this for command value tracking
   const [selectedCity, setSelectedCity] = useState<string>("London");
   const [selectedCountry, setSelectedCountry] = useState<string>("UK");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: prayerData, isLoading } = useQuery({
     queryKey: ["prayerTimes", selectedCity, selectedCountry],
@@ -51,12 +55,16 @@ const Index = () => {
     },
   });
 
-  const handleSelect = (currentValue: string) => {
-    const [city, country] = currentValue.split("-");
+  const filteredCities = cities.filter(
+    (city) =>
+      city.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      city.country.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleCitySelect = (value: string) => {
+    const [city, country] = value.split("-");
     setSelectedCity(city);
     setSelectedCountry(country);
-    setValue(currentValue);
-    setOpen(false);
   };
 
   return (
@@ -74,43 +82,32 @@ const Index = () => {
           <p className="text-emerald-700">Select your city to view prayer times</p>
         </div>
 
-        <div className="w-full max-w-xs mx-auto">
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-full justify-between bg-white hover:bg-emerald-50"
-              >
-                {`${selectedCity}, ${selectedCountry}`}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
-              <Command value={value} onValueChange={setValue}>
-                <CommandInput placeholder="Search city..." />
-                <CommandEmpty>No city found.</CommandEmpty>
-                <CommandGroup heading="Cities">
-                  {cities.map((cityItem) => (
-                    <CommandItem
-                      key={`${cityItem.city}-${cityItem.country}`}
-                      value={`${cityItem.city}-${cityItem.country}`}
-                      onSelect={handleSelect}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          selectedCity === cityItem.city ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {cityItem.city}, {cityItem.country}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
+        <div className="w-full max-w-xs mx-auto space-y-2">
+          <Input
+            type="text"
+            placeholder="Search cities..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
+          />
+          
+          <Select onValueChange={handleCitySelect} value={`${selectedCity}-${selectedCountry}`}>
+            <SelectTrigger className="w-full bg-white">
+              <SelectValue placeholder="Select a city" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {filteredCities.map((cityItem) => (
+                  <SelectItem
+                    key={`${cityItem.city}-${cityItem.country}`}
+                    value={`${cityItem.city}-${cityItem.country}`}
+                  >
+                    {cityItem.city}, {cityItem.country}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
         {isLoading ? (
