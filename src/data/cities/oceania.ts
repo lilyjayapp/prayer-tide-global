@@ -1,6 +1,12 @@
 import { Location } from "@/types/prayer";
 
 export const oceanianCities: Location[] = [
+  // Major Australian cities
+  { city: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
+  { city: "Melbourne", country: "Australia", lat: -37.8136, lng: 144.9631 },
+  { city: "Brisbane", country: "Australia", lat: -27.4698, lng: 153.0251 },
+  { city: "Perth", country: "Australia", lat: -31.9505, lng: 115.8605 },
+  { city: "Adelaide", country: "Australia", lat: -34.9285, lng: 138.6007 },
   { city: "Canberra", country: "Australia", lat: -35.2809, lng: 149.1300 },
   { city: "Suva", country: "Fiji", lat: -18.1416, lng: 178.4419 },
   { city: "South Tarawa", country: "Kiribati", lat: 1.3290, lng: 172.9790 },

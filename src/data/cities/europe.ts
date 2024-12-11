@@ -44,6 +44,7 @@ export const europeanCities: Location[] = [
   { city: "Stockholm", country: "Sweden", lat: 59.3293, lng: 18.0686 },
   { city: "Bern", country: "Switzerland", lat: 46.9480, lng: 7.4474 },
   // Adding Turkish cities
+  // Turkish cities
   { city: "Istanbul", country: "Turkey", lat: 41.0082, lng: 28.9784 },
   { city: "Ankara", country: "Turkey", lat: 39.9334, lng: 32.8597 },
   { city: "Izmir", country: "Turkey", lat: 38.4237, lng: 27.1428 },
