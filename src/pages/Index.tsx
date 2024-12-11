@@ -98,8 +98,10 @@ const Index = () => {
       const [city, country] = selectedLocation.split("-");
       try {
         console.log(`Fetching prayer times for ${city}, ${country}`);
+        // Use method 13 (Turkish Diyanet) for Istanbul, method 2 (ISNA) for others
+        const method = city === "Istanbul" ? 13 : 2;
         const response = await fetch(
-          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
+          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${method}`
         );
         
         if (!response.ok) {
