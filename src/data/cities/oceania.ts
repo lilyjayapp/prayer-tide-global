@@ -20,5 +20,19 @@ export const oceanianCities: Location[] = [
   { city: "Honiara", country: "Solomon Islands", lat: -9.4438, lng: 159.9498 },
   { city: "Nukuʻalofa", country: "Tonga", lat: -21.1399, lng: -175.2058 },
   { city: "Funafuti", country: "Tuvalu", lat: -8.5211, lng: 179.1983 },
-  { city: "Port Vila", country: "Vanuatu", lat: -17.7334, lng: 168.3220 }
+  { city: "Port Vila", country: "Vanuatu", lat: -17.7334, lng: 168.3220 },
+  
+  // Adding more Australian cities
+  { city: "Gold Coast", country: "Australia", lat: -28.0167, lng: 153.4000 },
+  { city: "Newcastle", country: "Australia", lat: -32.9283, lng: 151.7817 },
+  { city: "Wollongong", country: "Australia", lat: -34.4331, lng: 150.8831 },
+  { city: "Hobart", country: "Australia", lat: -42.8821, lng: 147.3272 },
+  { city: "Cairns", country: "Australia", lat: -16.9186, lng: 145.7781 },
+  
+  // Adding more New Zealand cities
+  { city: "Auckland", country: "New Zealand", lat: -36.8485, lng: 174.7633 },
+  { city: "Christchurch", country: "New Zealand", lat: -43.5320, lng: 172.6306 },
+  { city: "Hamilton", country: "New Zealand", lat: -37.7870, lng: 175.2793 },
+  { city: "Tauranga", country: "New Zealand", lat: -37.6878, lng: 176.1651 },
+  { city: "Dunedin", country: "New Zealand", lat: -45.8788, lng: 170.5028 }
 ];

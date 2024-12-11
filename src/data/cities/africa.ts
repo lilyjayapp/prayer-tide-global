@@ -52,5 +52,27 @@ export const africanCities: Location[] = [
   { city: "Tunis", country: "Tunisia", lat: 36.8065, lng: 10.1815 },
   { city: "Kampala", country: "Uganda", lat: 0.3476, lng: 32.5825 },
   { city: "Lusaka", country: "Zambia", lat: -15.3875, lng: 28.3228 },
-  { city: "Harare", country: "Zimbabwe", lat: -17.8292, lng: 31.0522 }
+  { city: "Harare", country: "Zimbabwe", lat: -17.8292, lng: 31.0522 },
+  // Adding more Egyptian cities
+  { city: "Alexandria", country: "Egypt", lat: 31.2001, lng: 29.9187 },
+  { city: "Giza", country: "Egypt", lat: 30.0131, lng: 31.2089 },
+  { city: "Shubra El Kheima", country: "Egypt", lat: 30.1286, lng: 31.2422 },
+  
+  // Adding more South African cities
+  { city: "Cape Town", country: "South Africa", lat: -33.9249, lng: 18.4241 },
+  { city: "Durban", country: "South Africa", lat: -29.8587, lng: 31.0218 },
+  { city: "Johannesburg", country: "South Africa", lat: -26.2041, lng: 28.0473 },
+  { city: "Port Elizabeth", country: "South Africa", lat: -33.9608, lng: 25.6022 },
+  
+  // Adding more Nigerian cities
+  { city: "Lagos", country: "Nigeria", lat: 6.5244, lng: 3.3792 },
+  { city: "Kano", country: "Nigeria", lat: 12.0022, lng: 8.5920 },
+  { city: "Ibadan", country: "Nigeria", lat: 7.3775, lng: 3.9470 },
+  { city: "Port Harcourt", country: "Nigeria", lat: 4.8156, lng: 7.0498 },
+  
+  // Adding more Moroccan cities
+  { city: "Casablanca", country: "Morocco", lat: 33.5731, lng: -7.5898 },
+  { city: "Fez", country: "Morocco", lat: 34.0181, lng: -5.0078 },
+  { city: "Tangier", country: "Morocco", lat: 35.7595, lng: -5.8340 },
+  { city: "Marrakesh", country: "Morocco", lat: 31.6295, lng: -7.9811 }
 ];
