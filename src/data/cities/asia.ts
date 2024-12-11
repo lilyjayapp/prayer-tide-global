@@ -39,8 +39,13 @@ export const asianCities: Location[] = [
   { city: "Bangkok", country: "Thailand", lat: 13.7563, lng: 100.5018 },
   { city: "Dili", country: "Timor-Leste", lat: -8.5586, lng: 125.5736 },
   { city: "Ashgabat", country: "Turkmenistan", lat: 37.9601, lng: 58.3261 },
+  // Adding UAE cities
+  { city: "Dubai", country: "UAE", lat: 25.2048, lng: 55.2708 },
   { city: "Abu Dhabi", country: "UAE", lat: 24.4539, lng: 54.3773 },
+  { city: "Sharjah", country: "UAE", lat: 25.3573, lng: 55.3919 },
+  { city: "Ajman", country: "UAE", lat: 25.4052, lng: 55.5136 },
+  { city: "Ras Al Khaimah", country: "UAE", lat: 25.7895, lng: 55.9432 },
   { city: "Tashkent", country: "Uzbekistan", lat: 41.2995, lng: 69.2401 },
   { city: "Hanoi", country: "Vietnam", lat: 21.0278, lng: 105.8342 },
-  { city: "Sanaa", country: "Yemen", lat: 15.3694, lng: 44.1910 },
+  { city: "Sanaa", country: "Yemen", lat: 15.3694, lng: 44.1910 }
 ];
