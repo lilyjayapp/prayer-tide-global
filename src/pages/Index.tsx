@@ -25,11 +25,11 @@ const Index = () => {
       try {
         console.log(`Fetching prayer times for ${city}, ${country}`);
         
-        const method = CITY_METHODS[city] || CITY_METHODS["DEFAULT"];
-        console.log(`Using calculation method ${method} for ${city}`);
+        const cityConfig = CITY_METHODS[city] || CITY_METHODS["DEFAULT"];
+        console.log(`Using calculation method ${cityConfig.method} for ${city}`);
         
         const response = await fetch(
-          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${method}`
+          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${cityConfig.method}`
         );
         
         if (!response.ok) {
@@ -39,7 +39,25 @@ const Index = () => {
         const data = await response.json();
         console.log("Prayer times response:", data);
         const { Fajr, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
-        return { Fajr, Dhuhr, Asr, Maghrib, Isha };
+
+        // Apply offsets if they exist for the city
+        const offsets = cityConfig.offsets || {};
+        const adjustTime = (time: string, offset: number = 0) => {
+          if (offset === 0) return time;
+          const [hours, minutes] = time.split(':').map(Number);
+          const totalMinutes = hours * 60 + minutes + offset;
+          const newHours = Math.floor(totalMinutes / 60) % 24;
+          const newMinutes = totalMinutes % 60;
+          return `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
+        };
+
+        return {
+          Fajr: adjustTime(Fajr, offsets.Fajr),
+          Dhuhr: adjustTime(Dhuhr, offsets.Dhuhr),
+          Asr: adjustTime(Asr, offsets.Asr),
+          Maghrib: adjustTime(Maghrib, offsets.Maghrib),
+          Isha: adjustTime(Isha, offsets.Isha)
+        };
       } catch (error) {
         console.error("Prayer times fetch error:", error);
         toast.error("Unable to fetch prayer times", {
