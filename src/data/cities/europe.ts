@@ -43,7 +43,13 @@ export const europeanCities: Location[] = [
   { city: "Madrid", country: "Spain", lat: 40.4168, lng: -3.7038 },
   { city: "Stockholm", country: "Sweden", lat: 59.3293, lng: 18.0686 },
   { city: "Bern", country: "Switzerland", lat: 46.9480, lng: 7.4474 },
+  // Adding Turkish cities
+  { city: "Istanbul", country: "Turkey", lat: 41.0082, lng: 28.9784 },
+  { city: "Ankara", country: "Turkey", lat: 39.9334, lng: 32.8597 },
+  { city: "Izmir", country: "Turkey", lat: 38.4237, lng: 27.1428 },
+  { city: "Bursa", country: "Turkey", lat: 40.1885, lng: 29.0610 },
+  { city: "Antalya", country: "Turkey", lat: 36.8969, lng: 30.7133 },
   { city: "Kiev", country: "Ukraine", lat: 50.4501, lng: 30.5234 },
   { city: "London", country: "UK", lat: 51.5074, lng: -0.1278 },
-  { city: "Vatican City", country: "Vatican City", lat: 41.9029, lng: 12.4534 },
+  { city: "Vatican City", country: "Vatican City", lat: 41.9029, lng: 12.4534 }
 ];
