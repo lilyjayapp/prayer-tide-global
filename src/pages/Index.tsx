@@ -89,6 +89,18 @@ const DEFAULT_PRAYER_TIMES = {
   Isha: "19:45"
 };
 
+// Prayer calculation methods by city
+const CITY_METHODS = {
+  "Istanbul": 13,    // Turkish Diyanet
+  "Cairo": 5,       // Egyptian General Authority
+  "Dubai": 3,       // Muslim World League
+  "Mecca": 4,       // Umm Al-Qura University
+  "Karachi": 1,     // University of Islamic Sciences, Karachi
+  "Tehran": 7,      // Institute of Geophysics, University of Tehran
+  "Singapore": 11,  // Singapore MUIS
+  "Moscow": 14,     // Russian Council of Muftis
+};
+
 const Index = () => {
   const [selectedLocation, setSelectedLocation] = useState("London-UK");
 
@@ -98,8 +110,11 @@ const Index = () => {
       const [city, country] = selectedLocation.split("-");
       try {
         console.log(`Fetching prayer times for ${city}, ${country}`);
-        // Use method 13 (Turkish Diyanet) for Istanbul, method 2 (ISNA) for others
-        const method = city === "Istanbul" ? 13 : 2;
+        
+        // Get the specific method for the city, or use ISNA (method 2) as default
+        const method = CITY_METHODS[city as keyof typeof CITY_METHODS] || 2;
+        console.log(`Using calculation method ${method} for ${city}`);
+        
         const response = await fetch(
           `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${method}`
         );
