@@ -90,6 +90,40 @@ export const CITY_METHODS: { [key: string]: { method: number; offsets?: { [key: 
   "Muscat": { method: 3 },
   "Sana'a": { method: 3 },
   
+  // Additional Turkish cities
+  "Bursa": { method: 13 },
+  "Antalya": { method: 13 },
+  "Mersin": { method: 13 },
+  "Adana": { method: 13 },
+  
+  // Additional Saudi cities
+  "Dammam": { method: 4 },
+  "Taif": { method: 4 },
+  "Buraidah": { method: 4 },
+  
+  // Additional Egyptian cities
+  "Port Said": { method: 5 },
+  "Asyut": { method: 5 },
+  "Ismailia": { method: 5 },
+  "Faiyum": { method: 5 },
+  
+  // Additional Pakistani cities
+  "Rawalpindi": { method: 1 },
+  "Faisalabad": { method: 1 },
+  "Multan": { method: 1 },
+  "Peshawar": { method: 1 },
+  
+  // Additional Indonesian cities
+  "Palembang": { method: 11 },
+  "Makassar": { method: 11 },
+  "Depok": { method: 11 },
+  "Tangerang": { method: 11 },
+  
+  // Additional Iranian cities
+  "Isfahan": { method: 7 },
+  "Shiraz": { method: 7 },
+  "Tabriz": { method: 7 },
+  
   // Default method for all other cities - Using ISNA
   "DEFAULT": { method: 2 }
 };
