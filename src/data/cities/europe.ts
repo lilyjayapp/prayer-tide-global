@@ -64,6 +64,9 @@ export const europeanCities: Location[] = [
   { city: "Murcia", country: "Spain", lat: 37.9922, lng: -1.1307 },
   { city: "Palma", country: "Spain", lat: 39.5696, lng: 2.6502 },
   { city: "Las Palmas", country: "Spain", lat: 28.1235, lng: -15.4366 },
+  // Adding Istanbul and Ankara
+  { city: "Istanbul", country: "Turkey", lat: 41.0082, lng: 28.9784 },
+  { city: "Ankara", country: "Turkey", lat: 39.9334, lng: 32.8597 },
   { city: "Bursa", country: "Turkey", lat: 40.1885, lng: 29.0610 },
   { city: "Antalya", country: "Turkey", lat: 36.8969, lng: 30.7133 },
   { city: "Mersin", country: "Turkey", lat: 36.8121, lng: 34.6339 },
