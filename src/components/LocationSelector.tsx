@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MapPin } from "lucide-react";
 import {
   Command,
@@ -23,6 +23,14 @@ export const LocationSelector = ({ locations, onLocationSelect, defaultValue }: 
     const [city, country] = defaultValue.split("-");
     return `${city}, ${country}`;
   });
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to top whenever the search input changes
+  const handleSearchChange = () => {
+    if (listRef.current) {
+      listRef.current.scrollTop = 0;
+    }
+  };
 
   return (
     <div className="w-full max-w-xs mx-auto">
@@ -37,8 +45,8 @@ export const LocationSelector = ({ locations, onLocationSelect, defaultValue }: 
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command className="rounded-lg border shadow-md">
-          <CommandInput placeholder="Search cities..." />
-          <CommandList>
+          <CommandInput placeholder="Search cities..." onValueChange={handleSearchChange} />
+          <CommandList ref={listRef}>
             <CommandEmpty>No city found.</CommandEmpty>
             <CommandGroup>
               {locations.map((location) => (
