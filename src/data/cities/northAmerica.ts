@@ -49,5 +49,6 @@ export const northAmericanCities: Location[] = [
   { city: "Monterrey", country: "Mexico", lat: 25.6866, lng: -100.3161 },
   { city: "Puebla", country: "Mexico", lat: 19.0413, lng: -98.2062 },
   { city: "Tijuana", country: "Mexico", lat: 32.5149, lng: -117.0382 },
+  { city: "Ciudad Juárez", country: "Mexico", lat: 31.6904, lng: -106.4245 },
   { city: "León", country: "Mexico", lat: 21.1219, lng: -101.6833 }
 ];

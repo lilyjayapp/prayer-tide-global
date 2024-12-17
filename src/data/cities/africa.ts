@@ -46,33 +46,23 @@ export const africanCities: Location[] = [
   { city: "Pretoria", country: "South Africa", lat: -25.7479, lng: 28.2293 },
   { city: "Juba", country: "South Sudan", lat: 4.8594, lng: 31.5713 },
   { city: "Khartoum", country: "Sudan", lat: 15.5007, lng: 32.5599 },
-  { city: "Mbabane", country: "Eswatini", lat: -26.3054, lng: 31.1367 },
-  { city: "Dodoma", country: "Tanzania", lat: -6.1630, lng: 35.7516 },
-  { city: "Lomé", country: "Togo", lat: 6.1375, lng: 1.2123 },
-  { city: "Tunis", country: "Tunisia", lat: 36.8065, lng: 10.1815 },
-  { city: "Kampala", country: "Uganda", lat: 0.3476, lng: 32.5825 },
-  { city: "Lusaka", country: "Zambia", lat: -15.3875, lng: 28.3228 },
-  { city: "Harare", country: "Zimbabwe", lat: -17.8292, lng: 31.0522 },
-  // Adding more Egyptian cities
+  { city: "Omdurman", country: "Sudan", lat: 15.6167, lng: 32.4800 },
   { city: "Alexandria", country: "Egypt", lat: 31.2001, lng: 29.9187 },
   { city: "Giza", country: "Egypt", lat: 30.0131, lng: 31.2089 },
-  { city: "Shubra El Kheima", country: "Egypt", lat: 30.1286, lng: 31.2422 },
-  
-  // Adding more South African cities
-  { city: "Cape Town", country: "South Africa", lat: -33.9249, lng: 18.4241 },
-  { city: "Durban", country: "South Africa", lat: -29.8587, lng: 31.0218 },
-  { city: "Johannesburg", country: "South Africa", lat: -26.2041, lng: 28.0473 },
-  { city: "Port Elizabeth", country: "South Africa", lat: -33.9608, lng: 25.6022 },
-  
-  // Adding more Nigerian cities
+  { city: "Suez", country: "Egypt", lat: 29.9668, lng: 32.5498 },
+  { city: "Luxor", country: "Egypt", lat: 25.6872, lng: 32.6396 },
+  { city: "Casablanca", country: "Morocco", lat: 33.5731, lng: -7.5898 },
+  { city: "Rabat", country: "Morocco", lat: 34.0209, lng: -6.8416 },
+  { city: "Fez", country: "Morocco", lat: 34.0181, lng: -5.0078 },
+  { city: "Tangier", country: "Morocco", lat: 35.7595, lng: -5.8340 },
   { city: "Lagos", country: "Nigeria", lat: 6.5244, lng: 3.3792 },
   { city: "Kano", country: "Nigeria", lat: 12.0022, lng: 8.5920 },
   { city: "Ibadan", country: "Nigeria", lat: 7.3775, lng: 3.9470 },
-  { city: "Port Harcourt", country: "Nigeria", lat: 4.8156, lng: 7.0498 },
-  
-  // Adding more Moroccan cities
-  { city: "Casablanca", country: "Morocco", lat: 33.5731, lng: -7.5898 },
-  { city: "Fez", country: "Morocco", lat: 34.0181, lng: -5.0078 },
-  { city: "Tangier", country: "Morocco", lat: 35.7595, lng: -5.8340 },
-  { city: "Marrakesh", country: "Morocco", lat: 31.6295, lng: -7.9811 }
+  { city: "Abuja", country: "Nigeria", lat: 9.0765, lng: 7.3986 },
+  { city: "Nairobi", country: "Kenya", lat: -1.2921, lng: 36.8219 },
+  { city: "Mombasa", country: "Kenya", lat: -4.0435, lng: 39.6682 },
+  { city: "Nakuru", country: "Kenya", lat: -0.3031, lng: 36.0800 },
+  { city: "Addis Ababa", country: "Ethiopia", lat: 9.0320, lng: 38.7469 },
+  { city: "Gondar", country: "Ethiopia", lat: 12.6030, lng: 37.4521 },
+  { city: "Dire Dawa", country: "Ethiopia", lat: 9.5931, lng: 41.8661 }
 ];
