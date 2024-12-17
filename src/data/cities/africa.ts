@@ -46,6 +46,12 @@ export const africanCities: Location[] = [
   { city: "Pretoria", country: "South Africa", lat: -25.7479, lng: 28.2293 },
   { city: "Juba", country: "South Sudan", lat: 4.8594, lng: 31.5713 },
   { city: "Khartoum", country: "Sudan", lat: 15.5007, lng: 32.5599 },
+  
+  // Adding missing major cities
+  { city: "Johannesburg", country: "South Africa", lat: -26.2041, lng: 28.0473 },
+  { city: "Cape Town", country: "South Africa", lat: -33.9249, lng: 18.4241 },
+  { city: "Marrakesh", country: "Morocco", lat: 31.6295, lng: -7.9811 },
+  
   { city: "Omdurman", country: "Sudan", lat: 15.6167, lng: 32.4800 },
   { city: "Alexandria", country: "Egypt", lat: 31.2001, lng: 29.9187 },
   { city: "Giza", country: "Egypt", lat: 30.0131, lng: 31.2089 },

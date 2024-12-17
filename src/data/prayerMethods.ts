@@ -125,5 +125,20 @@ export const CITY_METHODS: { [key: string]: { method: number; offsets?: { [key: 
   "Tabriz": { method: 7 },
   
   // Default method for all other cities - Using ISNA
-  "DEFAULT": { method: 2 }
+  "DEFAULT": { method: 2 },
+
+  // Adding missing cities to prayer methods
+  "São Paulo": { method: 2 },
+  "Rio de Janeiro": { method: 2 },
+  "San Francisco": { method: 2 },
+  "Miami": { method: 2 },
+  "Barcelona": { method: 3 },
+  "Milan": { method: 3 },
+  "St. Petersburg": { method: 3 },
+  "Marrakesh": { method: 3 },
+  "Johannesburg": { method: 2 },
+  "Cape Town": { method: 2 },
+  "Hyderabad": { method: 1 },
+  "Almaty": { method: 3 },
+  "Bishkek": { method: 3 },
 };
